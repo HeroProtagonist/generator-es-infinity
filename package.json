@@ -3,11 +3,7 @@
   "version": "0.0.0",
   "description": "Bootstrap common libraries needed to write es6 and beyond",
   "homepage": "https://github.com/HeroProtagonist/generator-es-infinity",
-  "author": {
-    "name": "Jordan Tepper",
-    "email": "jstepper91@gmail.com",
-    "url": ""
-  },
+  "author": "Jordan Tepper <jstepper91@gmail.com>",
   "files": ["generators"],
   "main": "generators/index.js",
   "keywords": [
@@ -69,6 +65,12 @@
     },
     "plugins": ["prettier"]
   },
-  "repository": "HeroProtagonist/generator-es-inifinity",
-  "license": "MIT"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HeroProtagonist/generator-es-inifinity.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HeroProtagonist/generator-es-inifinity/issues"
+  }
 }
