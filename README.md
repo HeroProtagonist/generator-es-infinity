@@ -33,6 +33,7 @@ yo es-infinity
 
 ## TODO
 
+* Prompt to make repo
 * Add in webpack / react options
 * More customization (jest, babel packages...)
 * Better initialization of git repo
