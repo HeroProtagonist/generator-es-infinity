@@ -50,17 +50,16 @@ module.exports = class extends Generator {
     }
 
     const devDependencyArray = await Promise.all([
-      await fetchVersion('prettier'),
       await fetchVersion('babel-cli'),
       await fetchVersion('babel-eslint'),
-      await fetchVersion('eslint-config-airbnb', true),
-      await fetchVersion('jest'),
       await fetchVersion('babel-preset-env'),
-      await fetchVersion('husky'),
-      await fetchVersion('lint-staged'),
+      await fetchVersion('eslint-config-airbnb', true),
       await fetchVersion('eslint-config-prettier'),
-      await fetchVersion('jest'),
       await fetchVersion('eslint-plugin-jest'),
+      await fetchVersion('husky'),
+      await fetchVersion('jest'),
+      await fetchVersion('lint-staged'),
+      await fetchVersion('prettier'),
     ])
 
     const devDependencies = devDependencyArray.reduce((m, c) => ({ ...m, ...c }), {})
@@ -93,6 +92,10 @@ module.exports = class extends Generator {
   }
 
   install() {
-    // This.yarnInstall()
+    this.yarnInstall()
+  }
+
+  end() {
+    this.spawnCommandSync('git', ['init'])
   }
 }
