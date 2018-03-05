@@ -1,4 +1,3 @@
-'use strict'
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const yosay = require('yosay')
@@ -6,7 +5,11 @@ const fetch = require('isomorphic-fetch')
 
 module.exports = class extends Generator {
   prompting() {
-    this.log(yosay(`Welcome to the ${chalk.green('generator-es-inifinity')} generator!`))
+    this.log(
+      yosay(
+        `Welcome to the ${chalk.green('generator-es-inifinity')} generator!`,
+      ),
+    )
 
     const prompts = [
       {
@@ -55,6 +58,7 @@ module.exports = class extends Generator {
       await fetchVersion('babel-preset-env'),
       await fetchVersion('eslint-config-airbnb', true),
       await fetchVersion('eslint-config-prettier'),
+      await fetchVersion('eslint-plugin-prettier'),
       await fetchVersion('eslint-plugin-jest'),
       await fetchVersion('husky'),
       await fetchVersion('jest'),
@@ -62,7 +66,10 @@ module.exports = class extends Generator {
       await fetchVersion('prettier'),
     ])
 
-    const devDependencies = devDependencyArray.reduce((m, c) => ({ ...m, ...c }), {})
+    const devDependencies = devDependencyArray.reduce(
+      (m, c) => ({ ...m, ...c }),
+      {},
+    )
 
     const pkg = {
       name: this.props.input,
@@ -86,9 +93,13 @@ module.exports = class extends Generator {
     copyFile('.gitignore')
     copyFile('.prettierrc.js')
 
-    this.fs.copyTpl(this.templatePath('.nvmrc'), this.destinationPath('.nvmrc'), {
-      nodeVersion: this.props.nodeVersion,
-    })
+    this.fs.copyTpl(
+      this.templatePath('.nvmrc'),
+      this.destinationPath('.nvmrc'),
+      {
+        nodeVersion: this.props.nodeVersion,
+      },
+    )
   }
 
   install() {
