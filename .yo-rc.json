@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "Jordan Tepper",
+      "authorEmail": "jstepper91@gmail.com",
+      "authorUrl": ""
+    }
+  }
+}
