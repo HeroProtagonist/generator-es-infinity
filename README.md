@@ -1,5 +1,7 @@
 # generator-es-infinity [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 
+<img src='./static/js-infinity.png' width="200" />
+
 > Bootstrap common libraries needed to write in es6 and beyond
 
 ## Installation
@@ -35,6 +37,7 @@ yo es-infinity
 
 * Prompt to make repo
 * Add in webpack / react options
+* Babel options, transpilation step
 * More customization (jest, babel packages...)
 * Better initialization of git repo
 * Use nsp
