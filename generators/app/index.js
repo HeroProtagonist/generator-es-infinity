@@ -26,7 +26,7 @@ module.exports = class extends Generator {
       },
       {
         type: 'confirm',
-        name: 'webpack',
+        name: 'includeWebpack',
         message: 'Would you like to install webpack?',
         default: true,
       },
@@ -38,12 +38,13 @@ module.exports = class extends Generator {
   }
 
   async writing() {
-    const fetchVersion = async (url, peers) => {
-      const res = await fetch(`https://registry.npmjs.org/${url}/latest`)
+    const fetchVersion = async (url, options = {}) => {
+      const { peers, tag = 'latest', name } = options
+      const res = await fetch(`https://registry.npmjs.org/${url}/${tag}`)
       const { version, peerDependencies } = await res.json()
 
       const lib = {
-        [url]: `^${version}`,
+        [name || url]: `^${version}`,
       }
       return peers ? { ...lib, ...peerDependencies } : lib
     }
@@ -52,11 +53,11 @@ module.exports = class extends Generator {
       this.fs.copy(this.templatePath(source), this.destinationPath(destination))
     }
 
-    const devDependencyArray = await Promise.all([
+    const libs = [
+      await fetchVersion('babel-preset-env'),
       await fetchVersion('babel-cli'),
       await fetchVersion('babel-eslint'),
-      await fetchVersion('babel-preset-env'),
-      await fetchVersion('eslint-config-airbnb', true),
+      await fetchVersion('eslint-config-airbnb', { peers: true }),
       await fetchVersion('eslint-config-prettier'),
       await fetchVersion('eslint-plugin-prettier'),
       await fetchVersion('eslint-plugin-jest'),
@@ -64,7 +65,40 @@ module.exports = class extends Generator {
       await fetchVersion('jest'),
       await fetchVersion('lint-staged'),
       await fetchVersion('prettier'),
-    ])
+    ]
+
+    if (this.props.includeWebpack) {
+      libs.shift()
+
+      const webpackLibs = [
+        await fetchVersion('babel-core', { name: '@babel/core', tag: 'next' }),
+        await fetchVersion('babel-preset-env', {
+          name: '@babel/preset-env',
+          tag: 'next',
+        }),
+        await fetchVersion('babel-preset-react', {
+          name: '@babel/preset-react',
+          tag: 'next',
+        }),
+        await fetchVersion('babel-loader', { tag: 'next' }),
+        await fetchVersion('css-loader'),
+        await fetchVersion('extract-text-webpack-plugin', { tag: 'next' }),
+        await fetchVersion('file-loader'),
+        await fetchVersion('node-sass'),
+        await fetchVersion('postcss-cssnext'),
+        await fetchVersion('postcss-import'),
+        await fetchVersion('postcss-loader'),
+        await fetchVersion('react'),
+        await fetchVersion('react-dom'),
+        await fetchVersion('sass-loader'),
+        await fetchVersion('webpack'),
+        await fetchVersion('webpack-cli'),
+        await fetchVersion('style-loader'),
+      ]
+      libs.push(...webpackLibs)
+    }
+
+    const devDependencyArray = await Promise.all(libs)
 
     const devDependencies = devDependencyArray.reduce(
       (m, c) => ({ ...m, ...c }),
@@ -92,6 +126,9 @@ module.exports = class extends Generator {
     copyFile('.eslintrc')
     copyFile('.gitignore')
     copyFile('.prettierrc.js')
+    copyFile('.prettierignore')
+    copyFile('webpack.config.js')
+    copyFile('postcss.config.js')
 
     this.fs.copyTpl(
       this.templatePath('.nvmrc'),
