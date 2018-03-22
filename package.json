@@ -1,6 +1,6 @@
 {
   "name": "generator-es-infinity",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Bootstrap common libraries needed to write es6 and beyond",
   "homepage": "https://github.com/HeroProtagonist/generator-es-infinity",
   "author": "Jordan Tepper <jstepper91@gmail.com>",

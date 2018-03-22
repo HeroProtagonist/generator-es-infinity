@@ -37,6 +37,7 @@ yo es-infinity
 
 * Prompt to make repo
 * Add in webpack / react options
+* Custom entries
 * Babel options, transpilation step
 * More customization (jest, babel packages...)
 * Better initialization of git repo
